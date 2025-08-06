@@ -1,3 +1,32 @@
+# MiniTicket 
+A simple, real-time support ticket system built with React + TypeScript using Vite.
+
+## Features
+- Submit tickets with name, email, category, and description
+- Toggle status between Open and Closed
+- Clean and responsive UI with TailwindCSS
+
+## Future Features (optional)
+- Filter by ticket status or category
+- Show success message after ticket submission
+- Add timestamps for each ticket
+- Connect to a backend API with MongoDB
+- Email notification integration
+
+## Tech Stack 
+- React + TypeScript
+- TailwindCSS
+- Vite
+- Git & GitHub
+
+## Setup Instructions
+```bash
+git clone https://github.com/Hero123468/miniticket.git
+cd miniticket
+npm install
+npm run dev
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

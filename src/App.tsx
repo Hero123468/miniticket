@@ -1,14 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
-import TicketForm from './components/TicketForm';
-import TicketList from './components/TicketList';
+import TicketForm from './components/TicketForm.tsx';
+import TicketList from './components/TicketList.tsx';
 import type { Ticket } from './types/ticket';
 
 function App() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
+  useEffect(() => {
+    console.log('Fetching tickets from server...');
+    fetch('http://localhost:5000/api/tickets')
+      .then(res => res.json())
+      .then(data => {
+        console.log('Tickets received:', data);
+        setTickets(data);
+      })
+      .catch(err => console.error('Failed to fetch tickets:', err));
+  }, []);
+
   const addTicket = (ticket: Ticket) => {
-    setTickets([ticket, ...tickets]);
+    setTickets([ticket, ...tickets])
   };
 
   const toggleTicketStatus = (id: string) => {
