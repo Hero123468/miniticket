@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import TicketForm from './components/TicketForm.tsx';
-import TicketList from './components/TicketList.tsx';
+import TicketForm from './components/TicketForm';
+import TicketList from './components/TicketList';
 import type { Ticket } from './types/ticket';
 
 function App() {
@@ -33,7 +33,14 @@ function App() {
   return (
     <div className="max-w-xl mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-4">MiniTicket Support System</h1>
-      <TicketForm onSubmit={addTicket} />
+      <TicketForm onSubmit={(formTicket) => {
+        const newTicket: Ticket = {
+          ...formTicket,
+          id: crypto.randomUUID(),
+          status: 'Open'
+        };
+        addTicket(newTicket);
+      }} />
       <TicketList tickets={tickets} toggleStatus={toggleTicketStatus} />
     </div>
   );

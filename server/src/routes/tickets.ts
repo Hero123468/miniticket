@@ -16,7 +16,7 @@ router.post('/', async (req: Request, res: Response) => {
     const newTicket = new Ticket(req.body);
     const saved = await newTicket.save();
     res.status(201).json(saved);
-  } catch (err) {
+  } catch {
     res.status(400).json({ error: 'Failed to save ticket' });
   }
 });

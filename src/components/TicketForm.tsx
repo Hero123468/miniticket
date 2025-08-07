@@ -3,20 +3,21 @@ import React, { useState } from 'react';
 import type { Ticket } from '../types/ticket';
 type FormTicket = Omit<Ticket, 'id' | 'status'>;
 
-export default function TicketForm() {
+type TicketFormProps = {
+  onSubmit?: (ticket: FormTicket) => void;
+};
+
+export default function TicketForm({ onSubmit }: TicketFormProps) {
   const [form, setForm] = useState<FormTicket>({
     name: '',
     email: '',
     category: 'Bug',
     description: '',
   });
-
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement  | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -37,7 +38,7 @@ export default function TicketForm() {
       }
 
       const newTicket = await res.json();
-      console.log('Ticket submitted:', newTicket); // optional: update UI with success message
+      if (onSubmit) onSubmit(newTicket);
       setForm({ name: '', email: '', category: 'Bug', description: '' });
     } catch (err) {
       setError((err as Error).message);
