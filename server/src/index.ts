@@ -3,7 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import ticketRoutes from './routes/tickets.ts';
+import ticketRoutes from './routes/tickets';
 
 dotenv.config();
 const app = express();

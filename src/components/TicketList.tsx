@@ -15,7 +15,7 @@ export default function TicketList({ tickets, toggleStatus }: Props) {
           <p><strong>Name:</strong> {ticket.name}</p>
           <p><strong>Email:</strong> {ticket.email}</p>
           <p><strong>Description:</strong> {ticket.description}</p>
-          <button onClick={() => toggleStatus(ticket.id)} className="mt-2 text-sm text-blue-600 underline">
+          <button onClick={() => ticket.id && toggleStatus(ticket.id)} className="mt-2 text-sm text-blue-600 underline">
             Mark as {ticket.status === 'Open' ? 'Closed' : 'Open'}
           </button>
         </div>

@@ -22,24 +22,44 @@ function App() {
     setTickets([ticket, ...tickets])
   };
 
-  const toggleTicketStatus = (id: string) => {
-    setTickets(
-      tickets.map(ticket =>
-        ticket.id === id ? { ...ticket, status: ticket.status === 'Open' ? 'Closed' : 'Open' } : ticket
-      )
-    );
+  const toggleTicketStatus = async (id: string) => {
+  const ticketToUpdate = tickets.find(ticket => ticket.id === id || ticket._id=== id);
+  if (!ticketToUpdate) return;
+
+  const newStatus = ticketToUpdate.status === 'Open' ? 'Closed' : 'Open';
+
+  try {
+    const response = await fetch(`http://localhost:5000/api/tickets/${ticketToUpdate._id || ticketToUpdate.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status: newStatus }),
+    });
+
+    if (!response.ok) throw new Error('Failed to update ticket status');
+
+    const updatedTicket = await response.json();
+
+    setTickets(tickets.map(ticket =>
+      (ticket.id === id || ticket._id === id) ? updatedTicket : ticket
+    ));
+  } catch (err) {
+    console.error('Error updating ticket status:', err);
   }
+};
+
     
   return (
     <div className="max-w-xl mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-4">MiniTicket Support System</h1>
       <TicketForm onSubmit={(formTicket) => {
-        const newTicket: Ticket = {
+        const tempTicket: Ticket = {
           ...formTicket,
-          id: crypto.randomUUID(),
+          _id: crypto.randomUUID(),
           status: 'Open'
         };
-        addTicket(newTicket);
+        addTicket(tempTicket);
       }} />
       <TicketList tickets={tickets} toggleStatus={toggleTicketStatus} />
     </div>
